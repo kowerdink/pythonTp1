@@ -1,10 +1,13 @@
 
+# -------------------------------------------- #
 
 #Listas Principales
 productos = []
 precios = []
 indices = []
+cart = []
 subtotal = []
+
 
 # Variables Globales
 auxi1 = ""
@@ -13,7 +16,9 @@ items = 0
 salida = False
 Sale_Final = True
 
-#Funciones
+# -------------------------------------------- #
+# --- Funciones --- #
+
 def agregar_producto():
         producto = str(input('Nombre del Producto: '))  # entrada producto
         global auxi1 
@@ -25,36 +30,30 @@ def agregar_precio():
         global auxi2
         auxi2 = precio
         return precio
-
-def cantidades(precio, cantidad):
-    return precio*cantidad
-
+ 
 def addProducts():
     out = False
     while out == False:
         paquete = agregar_producto() # guardo producto
-        productos.append(paquete)
-        indice1 = (productos.index(auxi1))
+        productos.append(paquete)    # agrego a la lista
+        indice1 = (productos.index(auxi1)) # guardo el indice para usar despues
         indices.append(indice1)
-        print(indice1)
-
+        
         monto = agregar_precio()        # guardo precio
         precios.append(monto)           # agrego precio
         #indice2 = (precios.index(auxi2))
         #print(indice2)
 
         print("<- Productos Agregados ->")
-        print(f"Productos: {productos}")
-        print(f"precios:    ${precios}")
-        print(f"Id's        {indices}")
-            
+        print()
+        print(f"Productos: {productos}")      
+        print()    
         print("Agregar mas Productos? ")
+        print()
         respuesta = str(input('Ingrese [ y =si / n =no ] : '))
         negativo = "n"
         if respuesta == negativo:
            out = True
-    product = str(input('Nombre del Producto: '))
-
 
 def remove(lista, producto):
     item = str(producto)
@@ -64,9 +63,10 @@ def remove(lista, producto):
 def removeProducts():
     out = False
     while out == False:
+        print()
         print(productos)
         print()
-        print("s para volver")
+        print("pulse 's' para volver")
         print()
         respuesta = str(input('Ingrese el producto a eliminar : '))
         if respuesta == "s":
@@ -74,7 +74,6 @@ def removeProducts():
         else:
             costo = productos.index(respuesta)
             precios.pop(costo)
-
             remove(productos, respuesta)
             print("Eliminar otro Producto? ")
             respuesta2 = str(input('Ingrese [ y =si / n =no ] : '))
@@ -82,27 +81,107 @@ def removeProducts():
             if respuesta2 == negativo:
                 out = True
 
+def removeCart():
+    out = False
+    while out == False:
+        print()
+        print(cart)
+        respuesta = str(input('Ingrese el producto a Eliminar: '))
+        if respuesta == "s":
+            out = True
+        else:
+            delete = cart.index(respuesta)
+            cart.pop(delete)
+            subtotal.pop(delete)
+            print("Eliminar otro Producto? ")
+            respuesta2 = str(input('Ingrese [ y =si / n =no ] : '))
+            negativo = "n"
+            if respuesta2 == negativo:
+                out = True
+
+def addCart():
+    out = False
+    while out == False:
+        print()
+        print(productos) 
+        print()
+        print("pulse 's' para volver")
+        print()
+        respuesta = str(input('Ingrese el producto elgido : '))
+        if respuesta == "s":
+            out = True
+        else:
+            iProducto = productos.index(respuesta) #obtengo el indice
+            cart.append(respuesta)
+            iniPrice = precios[iProducto] # paso como parametro al indice para buscar el precio
+            print()
+            multi = int(input('Ingrese la cantidad: '))
+            print()
+            item = iniPrice*multi
+            subtotal.append(item)
+            sumTemp = sum(subtotal) #Suma de totales temporales
+            print()
+            print(f"Productos agregados : {cart}")
+            print()
+            print(f"El subtotal es de : $ {sumTemp}")
+            print()
+            print("agregar otro Producto? ")
+            respuesta2 = str(input('Ingrese [ y =si / n =no ] : '))
+            negativo = "n"
+            if respuesta2 == negativo:
+                global TotalFinal
+                TotalFinal = sum(subtotal)
+                out = True
+
+def cobrar():
+    out = False
+    while out == False:
+        total = sum(subtotal)
+        print("Seguro que quiere cerrar caja: ")
+        print()
+        respuesta = str(input('Ingrese [ y =si / n =no ] : '))
+        if respuesta == "n":
+            out = True
+        else:
+            print()    
+            print("    --- Caja Cerrada --- ")
+            print("--- Gracias por su Compra ---")
+            print()
+            print(f"La suma a Pagar es: $ {total}")
+            print()
+            global Sale_Final
+            Sale_Final = False # Termino el Programa
+
+# -------------------------------------------- #
+# -------------------------------------------- #
+
 # --- Main Program --- #
 
 while Sale_Final==True:
-    print(" Bienvenidos ")
-    print("1.-Agregare Producto.")
-    print("2.-Remover Producto.")
-    print("3.-Añadir a Cuenta.")
-    print("4.-Quitar de la Cuenta.")
-    print("5.-Cobrar.")
+    print()
+    print("--- Bienvenidos ---")
+    print()
+    print("1.- Agregar Producto.")
+    print("2.- Remover Producto.")
+    print("3.- Añadir a Cuenta.")
+    print("4.- Quitar de la Cuenta.")
+    print("5.- Cobrar.")
+    print()
+    totalTemp =  sum(subtotal)
+    print(f"El subtotal es de : $ {totalTemp}")
+    print()
     opciones = int(input('Ingrese la Opción: '))
+    print()
     if opciones == 1:
-        addProducts()
+            addProducts()
     if opciones == 2:
         removeProducts()
-        #elif opciones == 3:
-            #addcart
-        #elif opciones == 4:
-            #removeCart
+    if opciones == 3:
+        addCart()
+    if opciones == 4:
+        removeCart()
     if opciones == 5:
-        total = sum(precios)
-        print(f"La suma a Pagar es: $ {total}")
-        Sale_Final = False
-
+        cobrar()
+        
+# -------------------------------------------- #
 # --- Final --- #
