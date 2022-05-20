@@ -66,7 +66,7 @@ def removeProducts():
         print()
         print(productos)
         print()
-        print("pulse 's' para volver")
+        print("<pulse 's' para volver>")
         print()
         respuesta = str(input('Ingrese el producto a eliminar : '))
         if respuesta == "s":
@@ -84,6 +84,8 @@ def removeProducts():
 def removeCart():
     out = False
     while out == False:
+        print()
+        print("<pulse 's' para volver>")
         print()
         print(cart)
         respuesta = str(input('Ingrese el producto a Eliminar: '))
@@ -126,6 +128,7 @@ def addCart():
             print(f"El subtotal es de : $ {sumTemp}")
             print()
             print("agregar otro Producto? ")
+            print()
             respuesta2 = str(input('Ingrese [ y =si / n =no ] : '))
             negativo = "n"
             if respuesta2 == negativo:
@@ -151,6 +154,7 @@ def cobrar():
             print()
             global Sale_Final
             Sale_Final = False # Termino el Programa
+            out = True
 
 # -------------------------------------------- #
 # -------------------------------------------- #
@@ -173,7 +177,7 @@ while Sale_Final==True:
     opciones = int(input('Ingrese la Opción: '))
     print()
     if opciones == 1:
-            addProducts()
+        addProducts()
     if opciones == 2:
         removeProducts()
     if opciones == 3:
